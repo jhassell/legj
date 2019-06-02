@@ -7,7 +7,7 @@
       %th Meeting day
       %th Meeting time
       %th Meeting room
-      %th
+      %th Members
       %th
       %th
 
@@ -18,6 +18,7 @@
         %td= committee.meeting_day
         %td= committee.meeting_time
         %td= committee.meeting_room
+        %td= committee.members.pluck(:last_name).join(", ")
         %td= link_to 'Show', committee
         %td= link_to 'Edit', edit_committee_path(committee)
         %td= link_to 'Destroy', committee, method: :delete, data: { confirm: 'Are you sure?' }
