@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Member:
+  = @assignment.member_id
+%p
+  %b Committee:
+  = @assignment.committee_id
+
+= link_to 'Edit', edit_assignment_path(@assignment)
+\|
+= link_to 'Back', assignments_path

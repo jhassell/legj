@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  meeting_day: MyString
+  meeting_time: MyString
+  meeting_room: MyString
+
+two:
+  name: MyString
+  meeting_day: MyString
+  meeting_time: MyString
+  meeting_room: MyString

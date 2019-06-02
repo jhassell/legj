@@ -1,0 +1,22 @@
+= form_for @committee do |f|
+  - if @committee.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@committee.errors.count, "error")} prohibited this committee from being saved:"
+      %ul
+        - @committee.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :meeting_day
+    = f.text_field :meeting_day
+  .field
+    = f.label :meeting_time
+    = f.text_field :meeting_time
+  .field
+    = f.label :meeting_room
+    = f.text_field :meeting_room
+  .actions
+    = f.submit 'Save'

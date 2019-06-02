@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Member type:
+  = @member.member_type
+%p
+  %b Member title:
+  = @member.member_title
+%p
+  %b Last name:
+  = @member.last_name
+%p
+  %b First name:
+  = @member.first_name
+
+= link_to 'Edit', edit_member_path(@member)
+\|
+= link_to 'Back', members_path

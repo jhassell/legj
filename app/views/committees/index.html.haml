@@ -1,0 +1,27 @@
+%h1 Listing committees
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Meeting day
+      %th Meeting time
+      %th Meeting room
+      %th
+      %th
+      %th
+
+  %tbody
+    - @committees.each do |committee|
+      %tr
+        %td= committee.name
+        %td= committee.meeting_day
+        %td= committee.meeting_time
+        %td= committee.meeting_room
+        %td= link_to 'Show', committee
+        %td= link_to 'Edit', edit_committee_path(committee)
+        %td= link_to 'Destroy', committee, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Committee', new_committee_path

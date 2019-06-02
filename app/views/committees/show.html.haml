@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @committee.name
+%p
+  %b Meeting day:
+  = @committee.meeting_day
+%p
+  %b Meeting time:
+  = @committee.meeting_time
+%p
+  %b Meeting room:
+  = @committee.meeting_room
+
+= link_to 'Edit', edit_committee_path(@committee)
+\|
+= link_to 'Back', committees_path
