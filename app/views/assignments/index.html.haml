@@ -12,7 +12,7 @@
   %tbody
     - @assignments.each do |assignment|
       %tr
-        %td= assignment.member_id
+        %td= assignment.member.last_name
         %td= assignment.committee_id
         %td= link_to 'Show', assignment
         %td= link_to 'Edit', edit_assignment_path(assignment)
