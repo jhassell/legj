@@ -13,7 +13,7 @@
     - @assignments.each do |assignment|
       %tr
         %td= assignment.member.last_name
-        %td= assignment.committee_id
+        %td= assignment.committee.name
         %td= link_to 'Show', assignment
         %td= link_to 'Edit', edit_assignment_path(assignment)
         %td= link_to 'Destroy', assignment, method: :delete, data: { confirm: 'Are you sure?' }
