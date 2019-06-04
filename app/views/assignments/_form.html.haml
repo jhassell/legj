@@ -7,14 +7,14 @@
           %li= message
 
   .field
-    = f.label :member_id
-    = f.number_field :member_id
+    = f.label :member_last_name
     - members = options_from_collection_for_select(Member.all, :id, :last_name)
     = f.select :member, members, {}, required: true
 
   .field
-    = f.label :committee_id
-    = f.number_field :committee_id
+    = f.label :committee_name
+    - committees = options_from_collection_for_select(Committee.all, :id, :name)
+    = f.select :committee, committees, {}, required: true
   %p
     %select{ :member => "question[question_status]" }
       %option{:value => 1}= "label 1"
