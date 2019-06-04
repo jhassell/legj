@@ -9,12 +9,12 @@
   .field
     = f.label :member_last_name
     - members = options_from_collection_for_select(Member.all, :id, :last_name)
-    = f.select :member, members, {}
+    = f.select :member_id, members, {}
 
   .field
     = f.label :committee_name
     - committees = options_from_collection_for_select(Committee.all, :id, :name)
-    = f.select :committee, committees, {}
+    = f.select :committee_id, committees, {}
 
   .actions
     = f.submit 'Save'
