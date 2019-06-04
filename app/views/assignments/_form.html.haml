@@ -12,5 +12,9 @@
   .field
     = f.label :committee_id
     = f.number_field :committee_id
+  %p
+    %select{ :member => "question[question_status]" }
+      %option{:value => 1}= "label 1"
+      %option{:value => 2}= "label 2"
   .actions
     = f.submit 'Save'
