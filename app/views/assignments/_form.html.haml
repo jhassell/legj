@@ -9,7 +9,7 @@
   .field
     = f.label :member_id
     = f.number_field :member_id
-    - members = options_from_collection_for_select(Member.all, :id, :name)
+    - members = options_from_collection_for_select(Member.all, :id, :last_name)
     = f.select :member, members, {}, required: true
 
   .field
