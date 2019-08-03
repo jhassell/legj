@@ -1,0 +1,65 @@
+-# %meta{:content => "1", "http-equiv" => "refresh"}/
+%h3 John's Garage Doors
+#content
+  %h4 Real-time Angle Difference:
+  %h1#theta_difference °
+  North Value
+  %h5#north_xvalue 
+  %h5#north_yvalue 
+  %h5#north_zvalue 
+  %h5#north_theta
+  South Value
+  %h5#south_xvalue 
+  %h5#south_yvalue 
+  %h5#south_zvalue 
+  %h5#south_theta
+
+:coffeescript
+  theta_difference = 0
+  north_theta = 0
+  south_theta = 0
+  north_settings =
+    'async': true
+    'crossDomain': true
+    'url': 'https://api.smartthings.com/devices/e0669a94-37d8-40ac-8555-13bc4f90d442/status'
+    'method': 'GET'
+    'headers':
+      'Content-Type': 'application/x-www-form-urlencoded'
+      'Authorization': 'Bearer 8999214c-f19a-4df3-bea3-031a35383635'
+      'Accept': '*/*'
+      'Cache-Control': 'no-cache'
+
+  updateNorthDoor = ->
+    north_settings.url = 'https://api.smartthings.com/devices/dd82296e-44ce-46ee-a8c9-8cfdb57e67c5/status' 
+    $.ajax(north_settings).done (north_response) ->
+      nx = north_response.components.main.threeAxis.threeAxis.value[0]
+      ny = north_response.components.main.threeAxis.threeAxis.value[1]
+      nz = north_response.components.main.threeAxis.threeAxis.value[2]
+      $('#north_xvalue')[0].textContent = nx
+      $('#north_yvalue')[0].textContent = ny
+      $('#north_zvalue')[0].textContent = nz
+      north_theta = Math.atan(nx / (Math.sqrt(ny*ny + nz*nz))) * 180 / Math.PI
+      $('#north_theta')[0].textContent = north_theta.toFixed 2
+      return
+
+  updateSouthDoor = ->
+    north_settings.url = 'https://api.smartthings.com/devices/e0669a94-37d8-40ac-8555-13bc4f90d442/status'
+    $.ajax(north_settings).done (south_response) ->
+      sx = south_response.components.main.threeAxis.threeAxis.value[0]
+      sy = south_response.components.main.threeAxis.threeAxis.value[1]
+      sz = south_response.components.main.threeAxis.threeAxis.value[2]
+      $('#south_xvalue')[0].textContent = sx
+      $('#south_yvalue')[0].textContent = sy
+      $('#south_zvalue')[0].textContent = sz
+      south_theta = Math.atan(sx / (Math.sqrt(sy*sy + sz*sz))) * 180 / Math.PI
+      $('#south_theta')[0].textContent = south_theta.toFixed 2 
+      return
+
+  updateThetaDifference = ->
+      theta_difference = north_theta - south_theta
+      $('#theta_difference')[0].textContent = theta_difference.toFixed 2
+
+  setInterval updateNorthDoor, 250
+  setInterval updateSouthDoor, 250
+  setInterval updateThetaDifference, 250
+

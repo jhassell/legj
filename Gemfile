@@ -35,3 +35,9 @@ group :development do
   gem 'hub', :require=>nil
   gem 'rails_layout'
 end
+source "https://gems.rapidrailsthemes.com/gems" do
+	gem "rrt", "~> 1.2.9"
+end
+gem 'httparty'
+gem 'rack-cors'
+gem 'barista'

@@ -1,5 +1,10 @@
+require 'uri'
+require 'net/http'
+require 'httparty'
+
 class AssignmentsController < ApplicationController
-  before_action :set_assignment, only: [:show, :edit, :update, :destroy]
+  # before_action :authenticate_user!
+  # before_action :set_assignment, only: [:show, :edit, :update, :destroy]
 
   # GET /assignments
   # GET /assignments.json
@@ -7,10 +12,69 @@ class AssignmentsController < ApplicationController
     @assignments = Assignment.all
   end
 
-  # GET /assignments/1
-  # GET /assignments/1.json
-  def show
+  def get_smartthing
+	  url = URI("https://api.smartthings.com/devices/e0669a94-37d8-40ac-8555-13bc4f90d442/status")
+
+	  http = Net::HTTP.new(url.host, url.port)
+	  http.use_ssl = true
+	  
+	  request = Net::HTTP::Get.new(url)
+	  request["Content-Type"] = 'application/x-www-form-urlencoded'
+	  request["Authorization"] = 'Bearer 8999214c-f19a-4df3-bea3-031a35383635'
+	  request["User-Agent"] = 'PostmanRuntime/7.15.0'
+	  request["Accept"] = '*/*'
+	  request["Cache-Control"] = 'no-cache'
+	  request["Postman-Token"] = 'b1fef25d-5881-4764-b85d-b7787b3c6d16,577b1b2a-680e-45e7-83b9-d22703582e9a'
+	  request["Host"] = 'api.smartthings.com'
+	  request["Connection"] = 'keep-alive'
+	  request["cache-control"] = 'no-cache'
+
+	  response = http.request(request)
+	  # puts response.read_body
+	  north_x = JSON.parse(response.read_body)["components"]["main"]["threeAxis"]["threeAxis"]["value"][0] 
+	  north_y = JSON.parse(response.read_body)["components"]["main"]["threeAxis"]["threeAxis"]["value"][1] 
+	  north_z = JSON.parse(response.read_body)["components"]["main"]["threeAxis"]["threeAxis"]["value"][2] 
+
+	  north_theta = Math.atan(north_x / (Math.sqrt(north_y**2 + north_z**2))) * 180 / Math::PI
+	  north_psi = Math.atan(north_y / (Math.sqrt(north_x**2 + north_z**2))) * 180 / Math::PI
+	  north_phi = Math.atan(Math.sqrt(north_x**2 + north_y**2)/ north_z) * 180 / Math::PI
+
+	  url = URI("https://api.smartthings.com/devices/dd82296e-44ce-46ee-a8c9-8cfdb57e67c5/status") 
+
+	  http = Net::HTTP.new(url.host, url.port)
+	  http.use_ssl = true
+	  
+	  request = Net::HTTP::Get.new(url)
+	  request["Content-Type"] = 'application/x-www-form-urlencoded'
+	  request["Authorization"] = 'Bearer 8999214c-f19a-4df3-bea3-031a35383635'
+	  request["User-Agent"] = 'PostmanRuntime/7.15.0'
+	  request["Accept"] = '*/*'
+	  request["Cache-Control"] = 'no-cache'
+	  request["Postman-Token"] = 'b1fef25d-5881-4764-b85d-b7787b3c6d16,577b1b2a-680e-45e7-83b9-d22703582e9a'
+	  request["Host"] = 'api.smartthings.com'
+	  request["Connection"] = 'keep-alive'
+	  request["cache-control"] = 'no-cache'
+
+	  response = http.request(request)
+
+	  south_x = JSON.parse(response.read_body)["components"]["main"]["threeAxis"]["threeAxis"]["value"][0] 
+	  south_y = JSON.parse(response.read_body)["components"]["main"]["threeAxis"]["threeAxis"]["value"][1] 
+	  south_z = JSON.parse(response.read_body)["components"]["main"]["threeAxis"]["threeAxis"]["value"][2] 
+
+	  south_theta = Math.atan(south_x / (Math.sqrt(south_y**2 + south_z**2))) * 180 / Math::PI
+	  south_psi = Math.atan(south_y / (Math.sqrt(south_x**2 + south_z**2))) * 180 / Math::PI
+	  south_phi = Math.atan(Math.sqrt(south_x**2 + south_y**2)/ south_z) * 180 / Math::PI
+
+	  @dif_theta = (north_theta-south_theta).round(2)
+
+	  @dif_psi = north_psi - south_psi
+	  @dif_phi = north_phi - south_phi
+	  
+	  puts north_x-south_x
+	  puts north_y-south_y
+	  puts north_z-south_z
   end
+
 
   # GET /assignments/new
   def new
